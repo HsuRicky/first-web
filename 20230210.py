@@ -7,8 +7,8 @@ r = requests.get("https://www.ptt.cc/bbs/MobileComm/index.html")
 
 soup = BeautifulSoup(r.text,"html.parser")
 #print(soup)
-sel = soup.select("div.title a")
-print(sel)
+sel = soup.select("div.nrec span")
+#print(sel)
 
 for s in sel:
-    print(s["href"]," : ", s.text)
+    print(s["class"]," : ", s.text)
