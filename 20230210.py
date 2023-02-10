@@ -7,7 +7,7 @@ r = requests.get("https://www.ptt.cc/bbs/MobileComm/index.html")
 
 soup = BeautifulSoup(r.text,"html.parser")
 #print(soup)
-sel = soup.select("div.meta a")
+sel = soup.select("div.title a")
 print(sel)
 
 for s in sel:
