@@ -1,16 +1,21 @@
-'''
+
 import requests
 from bs4 import BeautifulSoup
 
+
 i=6689
-while i>0:
+while i>6680:
     web = (f'https://www.ptt.cc/bbs/MobileComm/index{i}.html')
     r = requests.get(web) 
     soup = BeautifulSoup(r.text,"html.parser") 
     sel = soup.select("div.title a")
     for s in sel:
-        print(s["href"],":", s.text)
+        with open('123.txt', mode='a', encoding='utf-8') as file:
+            x = (s["href"],s.text)
+            #print(x)
+            fileMe = file.write(f'{str(x)}\n')
     i -= 1
+
 '''
 
 import requests
@@ -76,3 +81,4 @@ def main() :
     
 if __name__ == '__main__':
     main()
+'''
