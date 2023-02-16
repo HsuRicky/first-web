@@ -4,6 +4,7 @@ import sys
 import pymongo
 
 article = []
+error = []
 last_page_link = ""
 time = 0
 
@@ -40,7 +41,7 @@ def capData() :
                 article.append({ "html" : str(article_soup), "link" : i["href"] })
                 #print(article_soup)
         except:
-            print("hi")
+            error.append("https://www.ptt.cc"+i["href"])
 
 
         r = requests.get("https://www.ptt.cc"+last_page_link)
@@ -60,6 +61,7 @@ def saveToDB() :
 def main() :
     capData()
     saveToDB()
+    print(error)
     print("Total article : " + str(len(article)))
     
 if __name__ == '__main__':
