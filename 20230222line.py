@@ -61,9 +61,8 @@ def handle_message(event):
     text = ""
 
     n = 0
-    for match in mycol.find(myquery) :
-        print(match["title"])
-        article.append(match)
+    for match in mycol.find(myquery).limit(50) :
+        #print(match["title"])
         text = text + '\n'+ str(n) + ' : ' + match["title"] + '\n' + match["link"]
         n += 1
 
