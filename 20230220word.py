@@ -22,7 +22,7 @@ def cut(article) :
     seg_list = jieba.cut(article["content"], cut_all=False)
     #print("Default Mode: " + "/ ".join(seg_list))
 
-    tfidf_list = jieba.analyse.extract_tags(article["content"], topK=20, withWeight=True, allowPOS=())
+    tfidf_list = jieba.analyse.extract_tags(article["content"], topK=20, withWeight=False, allowPOS=())
 
     #print(tfidf_list)
 
