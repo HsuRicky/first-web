@@ -25,7 +25,7 @@ line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(CHANNEL_SECRECT)
 
 
-@app.route("/callback", methods=['POST'])
+@app.route("/ricky", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
@@ -48,17 +48,16 @@ def callback():
 def handle_message(event):
 
     
-    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+    myclient = pymongo.MongoClient("mongodb+srv://jasonyaya:jasonyaya@cluster0.rjbp5vy.mongodb.net")
 
-    mydb = myclient["ptt"]
+    mydb = myclient["ptt_Ricky"]
 
-    mycol = mydb["mobel"]
+    mycol = mydb["movie_good"]
 
     x = event.message.text.split(" ")
 
     myquery = { "tfidf": { "$in": x } }
 
-    article = []
     text = ""
 
     n = 0
@@ -67,6 +66,9 @@ def handle_message(event):
         article.append(match)
         text = text + '\n'+ str(n) + ' : ' + match["title"] + '\n' + match["link"]
         n += 1
+
+    if len(text) == 0:
+        text = "什麼都找不到...QQ"
 
 
     line_bot_api.reply_message(
