@@ -30,21 +30,21 @@ def cut(article) :
 
 
 def getFromDB() :
-    myclient = pymongo.MongoClient("mongodb+srv://jasonyaya:jasonyaya@cluster0.rjbp5vy.mongodb.net")
+    myclient = pymongo.MongoClient("mongodb+srv://jasonyaya:jasonyaya@class.nwopb5x.mongodb.net/")
 
-    mydb = myclient["ptt_Ricky"]
+    mydb = myclient["ptt_movie"]
 
-    mycol = mydb["movie_good"]
+    mycol = mydb["movie"]
 
     for x in mycol.find():
         articles.append(x)
 
 def saveToDB() :
-    myclient = pymongo.MongoClient("mongodb+srv://jasonyaya:jasonyaya@cluster0.rjbp5vy.mongodb.net")
+    myclient = pymongo.MongoClient("mongodb+srv://jasonyaya:jasonyaya@class.nwopb5x.mongodb.net/")
 
-    mydb = myclient["ptt_Ricky"]
+    mydb = myclient["ptt_movie"]
 
-    mycol = mydb["movie_good"]
+    mycol = mydb["movie"]
     
     for article in articles:
         tfidf_list = cut(article)
@@ -52,7 +52,7 @@ def saveToDB() :
         newvalues = { "$set": { "tfidf": tfidf_list } }
         
         mycol.update_one(myquery, newvalues)
-        #print('done')
+    print('done')
 
 
 def main() :
