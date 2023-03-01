@@ -21,7 +21,7 @@ import time
 start = time.time()
 model = gensim.models.Word2Vec.load("word2vec.zh.300.model")
 end = time.time()
-print(f"done,total:{ end - start } s")
+print(f"done,total used:{ end - start } s")
 
 
 load_dotenv()
@@ -65,25 +65,60 @@ def handle_message(event):
 
     mycol = mydb["movie"]
 
-    x = event.message.text.split(" ")
+    targets = event.message.text.split(" ")
 
-    myquery = { "tfidf": { "$in": x } }
 
-    text = ""
+    """
+    for target in targets :
+        try:
+            words = model.wv.most_similar(target, topn=3)
+            for word in words :
+                targets.append(word[0])
+        except KeyError as e:
+            print(e)
+    """
+
+    await_words = []
+    for target in targets :
+        try:
+            words = model.wv.most_similar(target, topn=3)
+            for word in words :
+                await_words.append(word[0])
+        except KeyError as e:
+            print(e)
+
+    targets = targets + await_words
+    targets = list(dict.fromkeys(targets))
+    print(targets)
+
+    relpy_text = ""
+    
+    myquery = { "tfidf": { "$in": targets } }
 
     n = 0
-    for match in mycol.find(myquery).limit(50) :
+    for match in mycol.find(myquery).limit(20):
         #print(match["title"])
-        text = text + '\n'+ str(n) + ' : ' + match["title"] + '\n' + match["link"]
+        relpy_text = relpy_text + '\n'+ str(n) + ' : ' + match["title"] + '\n' + match["link"]
         n += 1
 
-    if len(text) == 0:
+    if len(relpy_text) == 0:
         text = "什麼都找不到...QQ"
+
+    try_to_find = ""
+    n = 0
+    while n < len(targets) :
+        if n + 1 != len(targets) :
+            try_to_find = try_to_find + target + ", "
+        else :
+            try_to_find = try_to_find + target
+        n += 1
+
+    relpy_text = "嘗試幫你找有關［" + try_to_find + "］的文章,結果如下\n\n" + relpy_text
 
 
     line_bot_api.reply_message(
     event.reply_token,
-    TextMessage(text=text),
+    TextMessage(text=relpy_text),
     )
 
 if __name__ == "__main__":
