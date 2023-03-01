@@ -50,6 +50,8 @@ def handle_message(event):
     
     myclient = pymongo.MongoClient("mongodb+srv://jasonyaya:jasonyaya@cluster0.rjbp5vy.mongodb.net")
 
+    # mongodb+srv://jasonyaya:jasonyaya@class.nwopb5x.mongodb.net/%20?retryWrites=true&w=majority
+
     mydb = myclient["ptt_Ricky"]
 
     mycol = mydb["movie_good"]
