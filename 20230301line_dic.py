@@ -102,15 +102,15 @@ def handle_message(event):
         n += 1
 
     if len(relpy_text) == 0:
-        text = "什麼都找不到...QQ"
+        relpy_text = "什麼都找不到...QQ"
 
     try_to_find = ""
     n = 0
     while n < len(targets) :
         if n + 1 != len(targets) :
-            try_to_find = try_to_find + target[n] + ", "
+            try_to_find = try_to_find + targets[n] + ", "
         else :
-            try_to_find = try_to_find + target[n]
+            try_to_find = try_to_find + targets[n]
         n += 1
 
     relpy_text = "嘗試幫你找有關［" + try_to_find + "］的文章,結果如下\n\n" + relpy_text
