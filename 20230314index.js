@@ -24,11 +24,61 @@ app.all('*', function (req, res, next) {
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' }));
 
-app.get('*', async (req, res) => {
+
+
+app.head('/head', async (req, res) => {
+
+    const { key,value} = req.body;
+
+    if (key == "123456") {
+        res.status(200).json(value)
+    }
+    else {
+        res.status(403).json({ message : "123"})
+    }
+});
+
+app.get('/home', async (req, res) => {
 
     const body = req.body;
-    res.status(200).json(body);
+    res.status(200).json({Hello:"Worold!"});
     return;
+});
+
+app.put('/renew', async (req, res) => {
+
+    const { id, pw} = req.body;
+
+    if (id == "123456" && pw == "654321") {
+        res.status(200).json({ message : "ok!"})
+    }
+    else {
+        res.status(403).json({ message : "fail!"})
+    }
+});
+
+app.post('/login', async (req, res) => {
+
+    const { id, pw} = req.body;
+
+    if (id == "123456" && pw == "654321") {
+        res.status(200).json({ message : "ok!"})
+    }
+    else {
+        res.status(403).json({ message : "fail!"})
+    }
+});
+
+app.delete('/delete', async (req, res) => {
+
+    const { id, pw} = req.body;
+
+    if (id == "123456" && pw == "654321") {
+        res.status(200).json({ message : "ok!"})
+    }
+    else {
+        res.status(403).json({ message : "fail!"})
+    }
 });
 
 /*
@@ -44,8 +94,8 @@ const credentials = {
 const httpServer = http.createServer(app);
 //const httpsServer = https.createServer(credentials, app);
 
-httpServer.listen(160, () => {
-    console.log('HTTP Server running on port 80');
+httpServer.listen(100, () => {
+    console.log('HTTP Server running on port 100');
 });
 
 /*
